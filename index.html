@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mandarin Fun for Kids</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#e3f4ff;--card:#fff;--ink:#1d2b53;--mute:#5b6b8c;--line:#1d2b53;--ok:#1fa971;--no:#e5484d;--warn:#f08c00;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141b34;--card:#212b52;--ink:#f2f4ff;--mute:#a4b0d6;--line:#8ea0e0;--ok:#2fbf87;--no:#e5484d;--warn:#f59f00}}
+:root[data-theme="dark"]{--bg:#141b34;--card:#212b52;--ink:#f2f4ff;--mute:#a4b0d6;--line:#8ea0e0;--ok:#2fbf87;--no:#e5484d;--warn:#f59f00}
+*{box-sizing:border-box}
+button,input{font-family:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Fredoka","Trebuchet MS","Segoe UI",system-ui,sans-serif;min-height:100vh}
+main{max-width:440px;margin:0 auto;padding:16px 14px 36px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
+h1{font-size:1.45rem;margin:0}
+h2{margin:6px 0}
+.themebtn{padding:8px 12px;border-radius:999px;border:2px solid var(--line);background:var(--card);color:var(--ink);font-size:.8rem;white-space:nowrap}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:6px 2px 12px}
+.tabs button{flex:0 0 auto;white-space:nowrap;padding:9px 13px;border-radius:999px;border:3px solid var(--c);background:var(--card);color:var(--ink);font-size:.95rem}
+.tabs button[aria-pressed="true"]{background:var(--c);color:#fff}
+.seg{display:flex;gap:8px;margin-bottom:12px}
+.seg button{flex:1;padding:10px;border-radius:14px;border:3px solid var(--c);background:var(--card);color:var(--ink);font-size:1rem}
+.seg button[aria-pressed="true"]{background:var(--c);color:#fff}
+.bar{height:12px;background:var(--card);border:2px solid var(--line);border-radius:8px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--c);transition:width .3s}
+.count{color:var(--mute);font-size:.95rem;margin:8px 0 14px}
+.scene{perspective:900px}
+.card{position:relative;width:100%;height:300px;border:0;background:none;padding:0;transform-style:preserve-3d;transition:transform .45s;cursor:pointer;color:var(--ink)}
+.card.flip{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;background:var(--card);border:3px solid var(--c);box-shadow:0 6px 0 var(--c);border-radius:26px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px;text-align:center}
+.back{transform:rotateY(180deg)}
+.emo{font-size:4.6rem;line-height:1.1}
+.emo.sm{font-size:3rem}
+.hanzi{font-family:"PingFang SC","Noto Sans SC","Microsoft YaHei",sans-serif;font-size:2.6rem;font-weight:700;line-height:1.3}
+.py{font-size:1.7rem;color:var(--c);font-weight:700;margin:4px 0}
+.en{font-size:1.4rem}
+.hint{position:absolute;bottom:12px;font-size:.85rem;color:var(--mute)}
+.actions{display:flex;gap:10px;margin-top:20px;min-height:54px}
+.actions[hidden]{display:none}
+.actions button{flex:1;padding:14px;border-radius:16px;border:3px solid;font-size:1.05rem;font-weight:700;background:var(--card)}
+#learn{border-color:var(--warn);color:var(--warn)}
+#got{border-color:var(--ok);background:var(--ok);color:#fff}
+.listen{display:block;margin:14px auto 0;padding:10px 22px;border-radius:999px;border:3px solid var(--c);background:var(--card);color:var(--ink);font-size:1rem}
+.note{text-align:center;color:var(--mute);font-size:.85rem;margin-top:8px;min-height:1em}
+.qbox{background:var(--card);border:3px solid var(--c);box-shadow:0 6px 0 var(--c);border-radius:26px;padding:18px;text-align:center}
+.ask{text-align:center;font-weight:700;margin:16px 0 10px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opt{padding:14px 8px;border-radius:18px;border:3px solid var(--line);background:var(--card);color:var(--ink);font-size:1.1rem;box-shadow:0 4px 0 var(--line);min-height:72px}
+.opt.pic{font-size:2.8rem;line-height:1.1}
+.opt.ok{background:var(--ok);border-color:var(--ok);box-shadow:0 4px 0 var(--ok);color:#fff}
+.opt.bad{background:var(--no);border-color:var(--no);box-shadow:0 4px 0 var(--no);color:#fff}
+.fb{text-align:center;font-weight:700;font-size:1.15rem;margin:14px 0 4px}
+.cta{display:block;width:100%;margin-top:12px;padding:14px;border-radius:16px;border:0;background:var(--c);color:#fff;font-size:1.05rem;font-weight:700}
+.cta.alt{background:var(--warn)}
+.done{text-align:center;padding:24px 8px}
+.stars{font-size:2.6rem;animation:pop .6s}
+@keyframes pop{0%{transform:scale(.4)}70%{transform:scale(1.2)}100%{transform:scale(1)}}
+.sec h2{font-size:1.15rem;margin:16px 0 8px}
+.sec p{color:var(--mute);font-size:.95rem;margin:0 0 10px}
+.row{display:flex;align-items:center;gap:12px;background:var(--card);border:3px solid var(--line);border-radius:18px;padding:10px 12px;margin-bottom:10px}
+.big{font-family:"PingFang SC","Noto Sans SC","Microsoft YaHei",sans-serif;font-size:2rem;font-weight:700;min-width:46px;text-align:center}
+.txt{flex:1;font-size:.92rem;line-height:1.4}
+.txt b{color:var(--c);font-size:1.1rem}
+.sp{border:3px solid var(--line);background:var(--bg);color:var(--ink);border-radius:999px;width:46px;height:46px;font-size:1.15rem}
+button:focus-visible{outline:3px solid var(--warn);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){.card,.bar i,.stars{transition:none;animation:none}}
+</style>
+</head>
+<body>
+<main>
+<div class="top"><h1>🐼 Mandarin Fun</h1><button class="themebtn" id="theme" aria-label="Switch light or dark mode"></button></div>
+<div class="tabs" id="tabs"></div>
+<div id="stage"></div>
+</main>
+<script>
+const D={
+"Greetings":{i:"👋",c:"#d6336c",cards:[["👋","你好","nǐ hǎo","Hello"],["🌅","早上好","zǎo shang hǎo","Good morning"],["🌙","晚安","wǎn ān","Good night"],["🙏","谢谢","xiè xie","Thank you"],["😊","不客气","bú kè qi","You're welcome"],["😔","对不起","duì bu qǐ","Sorry"],["🤲","请","qǐng","Please"],["🖐️","再见","zài jiàn","Goodbye"]]},
+"Animals":{i:"🐾",c:"#e8590c",cards:[["🐱","猫","māo","Cat"],["🐶","狗","gǒu","Dog"],["🐰","兔子","tù zi","Rabbit"],["🐼","熊猫","xióng māo","Panda"],["🐘","大象","dà xiàng","Elephant"],["🐟","鱼","yú","Fish"],["🐦","鸟","niǎo","Bird"],["🐵","猴子","hóu zi","Monkey"]]},
+"Colors":{i:"🎨",c:"#7048e8",cards:[["🔴","红色","hóng sè","Red"],["🔵","蓝色","lán sè","Blue"],["🟡","黄色","huáng sè","Yellow"],["🟢","绿色","lǜ sè","Green"],["🟠","橙色","chéng sè","Orange"],["🟣","紫色","zǐ sè","Purple"],["⚪","白色","bái sè","White"],["⚫","黑色","hēi sè","Black"]]},
+"Numbers":{i:"🔢",c:"#0c8599",cards:[["1️⃣","一","yī","One"],["2️⃣","二","èr","Two"],["3️⃣","三","sān","Three"],["4️⃣","四","sì","Four"],["5️⃣","五","wǔ","Five"],["6️⃣","六","liù","Six"],["7️⃣","七","qī","Seven"],["8️⃣","八","bā","Eight"],["9️⃣","九","jiǔ","Nine"],["🔟","十","shí","Ten"]]},
+"Family & People":{i:"👨‍👩‍👦",c:"#1c7ed6",cards:[["👩","妈妈","mā ma","Mom"],["👨","爸爸","bà ba","Dad"],["👵","奶奶","nǎi nai","Grandma"],["👴","爷爷","yé ye","Grandpa"],["👦","哥哥","gē ge","Older brother"],["👧","姐姐","jiě jie","Older sister"],["👶","宝宝","bǎo bao","Baby"],["🧑‍🤝‍🧑","朋友","péng you","Friend"]]},
+"Food":{i:"🍎",c:"#2f9e44",cards:[["🍎","苹果","píng guǒ","Apple"],["🍌","香蕉","xiāng jiāo","Banana"],["🥛","牛奶","niú nǎi","Milk"],["🍚","米饭","mǐ fàn","Rice"],["🍞","面包","miàn bāo","Bread"],["🥚","鸡蛋","jī dàn","Egg"],["💧","水","shuǐ","Water"],["🍪","饼干","bǐng gān","Cookie"]]}
+};
+const SP=["Sounds & Tones","Mix-up Quiz"],SPI={"Sounds & Tones":"🔤","Mix-up Quiz":"🎲"},SPC={"Sounds & Tones":"#495057","Mix-up Quiz":"#c92a2a"};
+const ALL=Object.values(D).flatMap(d=>d.cards);
+const $=id=>document.getElementById(id);
+const shuf=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
+let cat="Greetings",mode="cards",deck=[],queue=[],got=0,flipped=false,Q=null;
+const color=()=>D[cat]?D[cat].c:SPC[cat];
+function start(k){cat=k;mode="cards";deck=D[k].cards;resetCards()}
+function resetCards(){queue=deck.map((_,i)=>i);got=0;flipped=false;render()}
+function go(k){if(k===SP[0]){cat=k;render()}else if(k===SP[1]){cat=k;newQuiz(ALL)}else start(k)}
+function newQuiz(pool){mode="quiz";Q={pool,qs:shuf(pool).slice(0,10),i:0,score:0,miss:[],ans:null,opts:null};render()}
+function seg(){return '<div class="seg"><button id="sc" aria-pressed="'+(mode==="cards")+'">🃏 Cards</button><button id="sq" aria-pressed="'+(mode==="quiz")+'">📝 Quiz</button></div>'}
+function wireSeg(){const a=$("sc");if(!a)return;a.onclick=()=>start(cat);$("sq").onclick=()=>newQuiz(D[cat].cards)}
+function render(){
+  $("stage").style.setProperty("--c",color());
+  const tb=$("tabs");tb.innerHTML="";
+  Object.keys(D).concat(SP).forEach(k=>{const b=document.createElement("button");b.textContent=(D[k]?D[k].i:SPI[k])+" "+k;b.style.setProperty("--c",D[k]?D[k].c:SPC[k]);b.setAttribute("aria-pressed",k===cat);b.onclick=()=>go(k);tb.appendChild(b)});
+  if(cat===SP[0])return sounds();
+  if(mode==="quiz")return quizView();
+  cardsView();
+}
+function cardsView(){
+  const st=$("stage"),total=deck.length;
+  let h=D[cat]?seg():"";
+  h+='<div class="bar"><i style="width:'+(got/total*100)+'%"></i></div><div class="count">⭐ Got it: '+got+' of '+total+(queue.length?' · '+queue.length+' left':'')+'</div>';
+  if(!queue.length){
+    st.innerHTML=h+'<div class="done"><div class="stars">🎉🌟🎉</div><h2>Amazing!</h2><p>You learned all '+total+' cards!</p><button class="cta" id="again">Practice again</button></div>';
+    wireSeg();$("again").onclick=resetCards;return;
+  }
+  const c=deck[queue[0]];
+  st.innerHTML=h+'<div class="scene"><button class="card'+(flipped?' flip':'')+'" id="card" aria-label="Flashcard. Tap to flip."><div class="face"><div class="emo">'+c[0]+'</div><div class="hanzi">'+c[1]+'</div><div class="hint">Tap to flip</div></div><div class="face back"><div class="emo sm">'+c[0]+'</div><div class="py">'+c[2]+'</div><div class="en">'+c[3]+'</div></div></button></div><button class="listen" id="listen">🔊 Listen</button><div class="note" id="note"></div><div class="actions" id="actions"'+(flipped?'':' hidden')+'><button id="learn">Still learning</button><button id="got">Got it!</button></div>';
+  wireSeg();
+  $("card").onclick=()=>{flipped=!flipped;$("card").classList.toggle("flip",flipped);$("actions").hidden=!flipped};
+  $("listen").onclick=()=>speak(c[1]);
+  $("got").onclick=()=>{queue.shift();got++;flipped=false;render()};
+  $("learn").onclick=()=>{queue.push(queue.shift());flipped=false;render()};
+}
+function quizView(){
+  const st=$("stage"),n=Q.qs.length;
+  let h=D[cat]?seg():"";
+  if(Q.i>=n){
+    const s=Math.round(Q.score/n*3);
+    st.innerHTML=h+'<div class="done"><div class="stars">'+"⭐".repeat(s)+"☆".repeat(3-s)+'</div><h2>'+Q.score+' out of '+n+'!</h2><p>'+(Q.score===n?"Perfect score! 🎉":"Nice try! Let's practice the ones you missed.")+'</p><button class="cta" id="qa">Play again</button>'+(Q.miss.length?'<button class="cta alt" id="qr">Review '+Q.miss.length+' missed</button>':'')+'</div>';
+    wireSeg();$("qa").onclick=()=>newQuiz(Q.pool);
+    if(Q.miss.length)$("qr").onclick=()=>{mode="cards";deck=Q.miss;resetCards()};
+    return;
+  }
+  const q=Q.qs[Q.i],pic=Q.i%2===0;
+  if(!Q.opts)Q.opts=shuf([q].concat(shuf(Q.pool.filter(x=>x!==q)).slice(0,3)));
+  const cls=(o,k)=>Q.ans===null?"":o===q?" ok":k===Q.ans?" bad":"";
+  h+='<div class="count">Question '+(Q.i+1)+' of '+n+' · ⭐ '+Q.score+'</div><div class="qbox"><div class="hanzi">'+q[1]+'</div><div class="py">'+q[2]+'</div><button class="listen" id="listen">🔊 Listen</button><div class="note" id="note"></div></div><p class="ask">'+(pic?"Which picture matches?":"What does it mean?")+'</p><div class="opts">'+Q.opts.map((o,k)=>'<button class="opt'+(pic?' pic':'')+cls(o,k)+'" data-k="'+k+'">'+(pic?o[0]:o[3])+'</button>').join("")+'</div>';
+  if(Q.ans!==null)h+='<div class="fb">'+(Q.opts[Q.ans]===q?"🎉 Great job!":"Oops! It's "+q[0]+" "+q[3])+'</div><button class="cta" id="nx">'+(Q.i+1<n?"Next":"See my stars")+'</button>';
+  st.innerHTML=h;wireSeg();
+  $("listen").onclick=()=>speak(q[1]);
+  st.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{if(Q.ans!==null)return;const k=+b.dataset.k;Q.ans=k;if(Q.opts[k]===q)Q.score++;else Q.miss.push(q);quizView()});
+  if(Q.ans!==null)$("nx").onclick=()=>{Q.i++;Q.ans=null;Q.opts=null;quizView()};
+}
+const TONES=[["妈","mā","→","1st tone: high and flat","mother"],["麻","má","↗","2nd tone: rising, like asking 'what?'","hemp"],["马","mǎ","↘↗","3rd tone: dips down, then up","horse"],["骂","mà","↘","4th tone: short and sharp, like 'No!'","to scold"],["吗","ma","·","Neutral: light and quick","question word"]];
+const SOUNDS=[["q","七","qī","seven","Like 'ch' with a big smile"],["x","西","xī","west","A soft 'sh' with a smile"],["zh","中","zhōng","middle","Curl your tongue up, like 'j' in 'jar'"],["ch","吃","chī","to eat","Curl your tongue up and puff air"],["sh","是","shì","is","Curl your tongue up, like 'sh' in 'shop'"],["r","人","rén","person","Curl your tongue up, like a soft 'zh'"],["c","菜","cài","dish","Like 'ts' in 'cats', with a puff"],["ü","女","nǚ","woman","Say 'ee' with round lips"]];
+function sounds(){
+  let h='<div class="note" id="note"></div><div class="sec"><h2>🎵 The 4 tones (plus neutral)</h2><p>Same sound, different tone, different word! Tap 🔊 to hear each one.</p>';
+  TONES.forEach(t=>{h+='<div class="row"><div class="big">'+t[0]+'</div><div class="txt"><b>'+t[1]+' '+t[2]+'</b><br>'+t[3]+' · '+t[4]+'</div><button class="sp" data-say="'+t[0]+'" aria-label="Listen">🔊</button></div>'});
+  h+='<h2>👄 Tricky sounds</h2>';
+  SOUNDS.forEach(s=>{h+='<div class="row"><div class="big">'+s[1]+'</div><div class="txt"><b>'+s[0]+'</b> · '+s[2]+' ('+s[3]+')<br>'+s[4]+'</div><button class="sp" data-say="'+s[1]+'" aria-label="Listen">🔊</button></div>'});
+  $("stage").innerHTML=h+'</div>';
+  $("stage").querySelectorAll("[data-say]").forEach(b=>b.onclick=()=>speak(b.dataset.say));
+}
+function pickVoice(){
+  const vs=(window.speechSynthesis?speechSynthesis.getVoices():[]).filter(v=>/^(zh|cmn)/i.test(v.lang)&&!/TW|HK|Hant/i.test(v.lang));
+  const pref=/xiaoxiao|xiaoyi|huihui|tingting|ting-ting|meijia|google.*(普通话|mandarin|chinese)|natural|neural|premium|enhanced/i;
+  return vs.find(v=>pref.test(v.name))||vs[0]||null;
+}
+function speak(text){
+  const note=$("note")||{};
+  if(!window.speechSynthesis||!window.SpeechSynthesisUtterance){note.textContent="Audio isn't supported in this browser. Try Chrome or Safari.";return}
+  note.textContent="";
+  const u=new SpeechSynthesisUtterance(text),v=pickVoice();
+  if(v)u.voice=v;
+  u.lang="zh-CN";u.rate=0.85;u.pitch=1.05;
+  u.onerror=e=>{if(e.error!=="canceled"&&e.error!=="interrupted")note.textContent="Couldn't play audio here. Check your volume and silent mode, or open the link in Chrome or Safari."};
+  speechSynthesis.cancel();
+  setTimeout(()=>{speechSynthesis.resume();speechSynthesis.speak(u)},80);
+}
+function eff(){return document.documentElement.dataset.theme||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light")}
+function paint(){$("theme").textContent=eff()==="dark"?"☀️ Light mode":"🌙 Dark mode"}
+try{const s=localStorage.getItem("theme");if(s)document.documentElement.dataset.theme=s}catch(e){}
+$("theme").onclick=()=>{const n=eff()==="dark"?"light":"dark";document.documentElement.dataset.theme=n;try{localStorage.setItem("theme",n)}catch(e){}paint()};
+paint();
+start("Greetings");
+</script>
+</body>
+</html>
